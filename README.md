@@ -75,11 +75,11 @@ This repository contains a Laravel-based API for managing a library system. It i
     MAIL_MAILER=smtp
     MAIL_HOST=smtp.mailtrap.io
     MAIL_PORT=2525
-    MAIL_USERNAME=seu_mailtrap_username
-    MAIL_PASSWORD=seu_mailtrap_password
-    MAIL_ENCRYPTION=tls
-    MAIL_FROM_ADDRESS=from@example.com
-    MAIL_FROM_NAME=YourAppName
+    MAIL_USERNAME=your_mailtrap_username
+    MAIL_PASSWORD=your_mailtrap_password
+    MAIL_ENCRYPTION=null
+    MAIL_FROM_ADDRESS=library@example.com
+    MAIL_FROM_NAME="${APP_NAME}"
     ```
 
 7. Migrate the database:
