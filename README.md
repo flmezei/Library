@@ -68,9 +68,9 @@ This repository contains a Laravel-based API for managing a library system. It i
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
-    DB_DATABASE=nome_do_banco_de_dados
-    DB_USERNAME=seu_usuario
-    DB_PASSWORD=sua_senha
+    DB_DATABASE=biblioteca
+    DB_USERNAME=root
+    DB_PASSWORD=root
 
     MAIL_MAILER=smtp
     MAIL_HOST=smtp.mailtrap.io
