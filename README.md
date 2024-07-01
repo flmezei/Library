@@ -1,66 +1,297 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Library Management API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository contains a Laravel-based API for managing a library system. It includes endpoints for user authentication, book management, and loan transactions.
 
-## About Laravel
+## Table of Contents
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Running the Application](#running-the-application)
+- [Testing](#testing)
+- [API Documentation](#api-documentation)
+  - [Authentication](#authentication)
+  - [Books](#books)
+  - [Loans](#loans)
+- [Postman Collection](#postman-collection)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- User authentication (register, login, logout)
+- CRUD operations for books
+- Managing book loans (create, retrieve)
+- Email notifications for loan events
 
-## Learning Laravel
+## Requirements
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP >= 7.4
+- Composer
+- MySQL or MariaDB
+- Redis (for queue processing)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Clone the repository:
 
-## Laravel Sponsors
+    ```bash
+    git clone https://github.com/seu-usuario/nome-do-repositorio.git
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. Navigate into the project directory:
 
-### Premium Partners
+    ```bash
+    cd nome-do-repositorio
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+3. Install PHP dependencies:
 
-## Contributing
+    ```bash
+    composer install
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. Copy the `.env.example` file to `.env`:
 
-## Code of Conduct
+    ```bash
+    cp .env.example .env
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. Generate an application key:
 
-## Security Vulnerabilities
+    ```bash
+    php artisan key:generate
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+6. Update the `.env` file with your database and mail settings:
 
-## License
+    ```dotenv
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=nome_do_banco_de_dados
+    DB_USERNAME=seu_usuario
+    DB_PASSWORD=sua_senha
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    MAIL_MAILER=smtp
+    MAIL_HOST=smtp.mailtrap.io
+    MAIL_PORT=2525
+    MAIL_USERNAME=seu_mailtrap_username
+    MAIL_PASSWORD=seu_mailtrap_password
+    MAIL_ENCRYPTION=tls
+    MAIL_FROM_ADDRESS=from@example.com
+    MAIL_FROM_NAME=YourAppName
+    ```
+
+7. Migrate the database:
+
+    ```bash
+    php artisan migrate
+    ```
+
+8. Start the local development server:
+
+    ```bash
+    php artisan serve
+    ```
+
+## Configuration
+
+- **Mail Configuration**: Update the `.env` file with your SMTP mail settings for sending notifications.
+
+## Running the Application
+
+To run the application locally after installation, use:
+
+```bash
+php artisan serve
+```
+This will start a development server at [http://localhost:8000](http://localhost:8000).
+
+## Testing
+
+To run the automated tests:
+
+```bash
+php artisan test
+```
+
+# API Documentation
+
+## Authentication
+
+### Register User
+
+- **URL**: `/api/register`
+- **Method**: `POST`
+- **Parameters**:
+  - `name` (string, required)
+  - `email` (string, required)
+  - `password` (string, required)
+  - `password_confirmation` (string, required)
+
+- **Example Request**:
+
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password",
+    "password_confirmation": "password"
+  }
+  ```
+
+### Login User
+
+**URL:** `/api/login`
+
+**Method:** `POST`
+
+**Parameters:**
+
+- `email` (string, required)
+- `password` (string, required)
+
+**Example Request:**
+
+```json
+{
+  "email": "john@example.com",
+  "password": "password"
+}
+```
+
+**Example Response:**
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+## Books
+
+### Create Book
+
+**URL:** `/api/books`
+
+**Method:** `POST`
+
+**Parameters:**
+
+- `title` (string, required)
+- `publication_year` (date, required, format: "YYYY-MM-DD")
+- `author_ids` (array of integers, required, existing author IDs)
+
+**Example Request:**
+```json
+{
+  "title": "Book Title",
+  "publication_year": "2023-01-01",
+  "author_ids": [1, 2]
+}
+```
+
+**Example Response:**
+```json
+{
+  "id": 1,
+  "title": "Book Title",
+  "publication_year": "2023-01-01",
+  "authors": [
+    {
+      "id": 1,
+      "name": "Author One"
+    },
+    {
+      "id": 2,
+      "name": "Author Two"
+    }
+  ],
+  "created_at": "2024-07-02T10:00:00Z",
+  "updated_at": "2024-07-02T10:00:00Z"
+}
+```
+
+### Update Book
+
+**URL:** `/api/books/{id}`
+
+**Method:** `PUT`
+
+**Parameters:**
+
+- `title` (string)
+- `publication_year` (date, format: "YYYY-MM-DD")
+- `author_ids` (array of integers, existing author IDs)
+
+**Example Request:**
+```json
+{
+  "title": "Updated Book Title",
+  "publication_year": "2024-01-01",
+  "author_ids": [2]
+}
+```
+
+**Example Response:**
+```json
+{
+  "id": 1,
+  "title": "Updated Book Title",
+  "publication_year": "2024-01-01",
+  "authors": [
+    {
+      "id": 2,
+      "name": "Author Two"
+    }
+  ],
+  "created_at": "2024-07-02T10:00:00Z",
+  "updated_at": "2024-07-02T12:00:00Z"
+}
+```
+
+## Loans
+
+### Create Loan
+
+**URL:** `/api/loans`
+
+**Method:** `POST`
+
+**Parameters:**
+
+- `user_id` (integer, required, existing user ID)
+- `book_id` (integer, required, existing book ID)
+- `loan_date` (date, required, format: "YYYY-MM-DD")
+- `return_date` (date, optional, format: "YYYY-MM-DD")
+
+**Example Request:**
+```json
+{
+  "user_id": 1,
+  "book_id": 1,
+  "loan_date": "2024-07-02",
+  "return_date": "2024-07-16"
+}
+```
+
+**Example Response:**
+```json
+{
+  "id": 1,
+  "user_id": 1,
+  "book_id": 1,
+  "loan_date": "2024-07-02",
+  "return_date": "2024-07-16",
+  "created_at": "2024-07-02T10:00:00Z",
+  "updated_at": "2024-07-02T10:00:00Z"
+}
+```
+
+## Postman Collection
+
+For testing the API endpoints, you can import the Postman collection provided in this repository.
+
+[https://documenter.getpostman.com/view/21137699/2sA3dvjsDS]
+
+
